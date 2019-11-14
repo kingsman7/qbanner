@@ -1,7 +1,8 @@
 <template>
   <div id="sliderIndex">
-    <q-no-ssr>
+    <q-no-ssr v-if="true">
       <!--List Carousel-->
+      
       <div class="col-12 text-right backend-page relative-position">
         <div class="box row" style="padding: 0px !important;">
           <!--Actions-->
@@ -269,9 +270,8 @@
   import mediaForm from '@imagina/qmedia/_components/form'
   import { Carousel, Slide } from 'vue-carousel';
   import renderMedia from '@imagina/qbanner/_components/admin/slide/renderMedia'
-
-
-
+  import qbanner from '@imagina/qbanner/_components/frontend/qbanner'
+  
   export default {
     props: {},
     components: {
@@ -279,7 +279,8 @@
       mediaForm,
       Carousel,
       Slide,
-      renderMedia
+      renderMedia,
+      qbanner
     },
     mounted () {
       this.$nextTick(function () {
