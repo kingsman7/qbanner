@@ -1,47 +1,30 @@
 export default {
   //Home Page
   index: {
-    permission: 'ibanners.positions.index',
+    permission: 'ibanners.banners.index',
     activated: true,
-    path: '/banner/index',
-    name: 'qbanner.admin.sliders',
+    path: '/banners/index',
+    name: 'qbanner.admin.index',
     page: () => import('@imagina/qbanner/_pages/admin/index'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'qbanner.sidebar.adminIndex',
     icon: 'fas fa-photo-video',
     authenticated: true,
+    subHeader: {refresh: true}
   },
-  showPosition: {
-    permission: 'ibanners.positions.index',
-    activated: true,
-    path: '/banner/show/:id',
-    name: 'qbanner.admin.positions.show',
-    page: () => import('@imagina/qbanner/_pages/admin/slider/show.vue'),
-    layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qbanner.sidebar.adminIndex',
-    icon: 'fas fa-photo-video',
-    authenticated: true,
-  },
-  createBanner: {
+  showSlider: {
     permission: 'ibanners.banners.index',
     activated: true,
-    path: '/banner/item/create/:sliderId',
-    name: 'qbanner.admin.banner.create',
-    page: () => import('@imagina/qbanner/_pages/admin/slide/create.vue'),
+    path: '/banners/:id',
+    name: 'qbanner.admin.show',
+    page: () => import('@imagina/qbanner/_pages/admin/form'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qbanner.sidebar.adminIndex',
-    icon: 'fas fa-photo-video',
+    title: 'qbanner.sidebar.adminShow',
+    icon: 'fas fa-image',
     authenticated: true,
-  },
-  updateBanner: {
-    permission: 'ibanners.banners.index',
-    activated: true,
-    path: '/banner/item/update/:sliderId/:id',
-    name: 'qbanner.admin.banner.update',
-    page: () => import('@imagina/qbanner/_pages/admin/slide/show.vue'),
-    layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qbanner.sidebar.adminIndex',
-    icon: 'fas fa-photo-video',
-    authenticated: true,
-  },
+    subHeader : {
+      refresh: true,
+      breadcrumb: ['qbanner.index']
+    }
+  }
 }
