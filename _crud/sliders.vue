@@ -11,9 +11,9 @@
         return {
           crudId: this.crudId,
           apiRoute: 'apiRoutes.qbanner.positions',
-          permission: 'slider.sliders',
+          permission: 'ibanners.positions',
           create: {
-            title: this.$tr('qbanner.layout.newBanner'),
+            title: this.$tr('qbanner.layout.newSlider'),
           },
           read: {
             columns: [
@@ -30,8 +30,7 @@
             requestParams: {}
           },
           update: {
-            title: this.$tr('qbanner.layout.updateBanner'),
-            to : 'qbanner.admin.show'
+            to: 'qbanner.admin.sliders.show'
           },
           delete: true,
           formLeft: {
@@ -68,7 +67,18 @@
                 ]
               }
             },
-          }
+            showAsPopup: {
+              value: '0',
+              type: 'checkbox',
+              isFakeField: true,
+              props: {
+                label: this.$tr('qbanner.layout.label.showAsPopup'),
+                trueValue: "1",
+                falseValue: "0"
+              }
+            },
+          },
+          formRight: {},
         }
       },
       //Crud info

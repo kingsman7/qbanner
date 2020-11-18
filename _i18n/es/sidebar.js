@@ -1,4 +1,4 @@
 export default {
-  adminIndex : 'Banners',
-  adminShow : 'Editar banner'
+  adminSlider : 'Banners',
+  adminSliderEdit : 'Editar Banner'
 }
