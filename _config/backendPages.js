@@ -8,7 +8,7 @@ export default {
     page: () => import('@imagina/qbanner/_pages/admin/positions/index'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'qbanner.sidebar.adminBanner',
-    icon: 'fas fa-images',
+    icon: 'fas fa-photo-video',
     authenticated: true,
     subHeader: {refresh: true}
   },
