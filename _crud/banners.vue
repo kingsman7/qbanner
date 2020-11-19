@@ -10,65 +10,126 @@
       crudData() {
         return {
           crudId: this.crudId,
-          apiRoute: 'apiRoutes.qbanner.positions',
-          permission: 'slider.sliders',
+          apiRoute: 'apiRoutes.qbanner.banners',
+          permission: 'ibanners.banners',
           create: {
-            title: this.$tr('qbanner.layout.newBanner'),
+            title: this.$tr('qbanner.layout.newBannerItem'),
           },
           read: {
-            columns: [
-              {name: 'id', label: this.$tr('ui.form.id'), field: 'id', style: 'width: 50px'},
-              {name: 'name', label: this.$tr('ui.form.name'), field: 'name', align: 'rigth'},
-              {name: 'systemName', label: this.$tr('ui.form.systemName'), field: 'systemName', align: 'rigth'},
-              {name: 'active', label: this.$tr('ui.form.status'), field: 'active', align: 'left'},
-              {
-                name: 'created_at', label: this.$tr('ui.form.createdAt'), field: 'createdAt', align: 'left',
-                format: val => val ? this.$trd(val) : '-',
-              },
-              {name: 'actions', label: this.$tr('ui.form.actions'), align: 'left'},
-            ],
+            columns: [],
             requestParams: {}
           },
           update: {
-            title: this.$tr('qbanner.layout.updateBanner'),
-            to : 'qbanner.admin.show'
+            title: this.$tr('qbanner.layout.updateSlide'),
           },
           delete: true,
           formLeft: {
             id: {value: ''},
             userId: {value: this.$store.state.quserAuth.userId},
-            name: {
+            title: {
               value: '',
               type: 'input',
+              isTranslatable : true,
               props: {
-                label: `${this.$tr('ui.form.name')}*`,
+                label: `${this.$tr('ui.form.title')}*`,
                 rules: [
                   val => !!val || this.$tr('ui.message.fieldRequired')
                 ],
               },
             },
-            systemName: {
+            uri: {
               value: '',
               type: 'input',
+              isTranslatable : true,
               props: {
-                label: `${this.$tr('ui.form.systemName')}*`,
-                rules: [
-                  val => !!val || this.$tr('ui.message.fieldRequired')
-                ],
+                label: 'URI',
+              },
+            },
+            url: {
+              value: '',
+              type: 'input',
+              isTranslatable : true,
+              props: {
+                label: 'URL',
+              },
+            },
+            externalImageUrl: {
+              value: '',
+              type: 'input',
+              isTranslatable : true,
+              props: {
+                label: `${this.$tr('ui.form.image')}`,
+              },
+            },
+            customHtml: {
+              value: '',
+              type: 'html',
+              isTranslatable: true,
+              props: {
+                label: `${this.$tr('ui.form.description')}`,
               }
             },
+          },
+          formRight: {
             active: {
-              value: '1',
+              value: true,
               type: 'select',
+              isTranslatable : true,
               props: {
                 label: this.$tr('ui.form.status'),
                 options: [
-                  {label: this.$tr('ui.label.enabled'), value: '1'},
-                  {label: this.$tr('ui.label.disabled'), value: '0'},
+                  {label: this.$tr('ui.label.enabled'), value: true},
+                  {label: this.$tr('ui.label.disabled'), value: false},
                 ]
               }
             },
-          }
+            targetField: {
+              name : 'target',
+              value: null,
+              type: 'select',
+              props: {
+                label: this.$tr('ui.form.option'),
+                options: [
+                  {label: 'Same tab', value: '_self'},
+                  {label: 'New tab', value: '_blank'}
+                ]
+              }
+            },
+            typeField: {
+              name : 'type',
+              value: null,
+              type: 'select',
+              props: {
+                label: this.$tr('ui.form.type'),
+                options: [
+                  {label: 'Auto', value: 'auto'},
+                  {label: '360', value: '360'},
+                  {label: 'Video', value: 'video'},
+                  {label: 'Image', value: 'image'}
+                ]
+              }
+            },
+            codeAds: {
+              value: '',
+              type: 'input',
+              isFakeField: true,
+              props: {
+                label: `${this.$tr('qbanner.layout.label.codeAds')}`,
+                type: 'textarea',
+                rows: "3"
+              },
+            },
+            mediasSingle: {
+              value: {},
+              type: 'media',
+              props: {
+                label: this.$tr('ui.form.image'),
+                zone: 'bannerImage',
+                entity: "Modules\\Ibanners\\Entities\\Banner",
+                entityId: null
+              }
+            }
+          },
         }
       },
       //Crud info
