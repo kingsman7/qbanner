@@ -13,7 +13,7 @@
           apiRoute: 'apiRoutes.qbanner.banners',
           permission: 'ibanners.banners',
           create: {
-            title: this.$tr('qbanner.layout.newSlide'),
+            title: this.$tr('qbanner.layout.newBannerItem'),
           },
           read: {
             columns: [],

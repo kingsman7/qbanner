@@ -1,25 +1,25 @@
 <template>
-  <div id="carousel" v-if="slides && slides.length">
+  <div id="carousel" v-if="banners && banners.length">
     <q-carousel class="text-white"
                 infinite autoplay
                 :height="this.$q.platform.is.desktop ? '500px' : '320px'">
-      <!--= Slides =-->
-      <q-carousel-slide :img-src="slide.imageUrl"
-                        v-for="(slide,index) in slides" :key="index">
+      <!--= banners =-->
+      <q-carousel-banner :img-src="banner.imageUrl"
+                        v-for="(banner,index) in banners" :key="index">
         <div class="filter-img" style="background-image: url('statics/filter-carousel.png')">
           <div class="q-container row items-center full-height">
             <div class="col-1"></div>
             <div class="col-11 col-md-6">
               <h3 class="q-ma-none q-mb-md">
-                {{slide.title}}
+                {{banner.title}}
               </h3>
               <span>
-                {{slide.caption}}
+                {{banner.caption}}
               </span>
             </div>
           </div>
         </div>
-      </q-carousel-slide>
+      </q-carousel-banner>
 
       <!--= Controls =-->
       <q-carousel-control slot="control-nav"

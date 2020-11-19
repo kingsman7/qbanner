@@ -30,8 +30,8 @@
                 />
               </q-btn-group>
               <!--Button new record-->
-              <q-btn icon="fas fa-edit" color="positive" :label="$tr('qbanner.layout.newSlider')"
-                     @click="showSliderModal(false)" v-if="$auth.hasAccess('slider.sliders.create')"/>
+              <q-btn icon="fas fa-edit" color="positive" :label="$tr('qbanner.layout.newBanner')"
+                     @click="showSliderModal(false)" v-if="$auth.hasAccess('ibanners.positions.create')"/>
               <!--Button refresh data-->
               <q-btn color="info" icon="fas fa-sync" class="q-ml-sm"
                      @click="getData({pagination:pagination,search:filter.search},true)">
@@ -52,7 +52,7 @@
                             :fullscreen.sync="carouselFullScreen[slider.id]"
                              autoplay height="200px" :ref="`carousel${slider.id}`">
 
-                  <q-carousel-slide v-for="slide in slider.banners" :key="slide.id"
+                  <q-carousel-slide v-for="slide in position.banners" :key="slide.id"
                                     :name="slide.id" :img-src="slide.imageUrl">
                     <!--== Video ==-->
                     <q-video v-if="slide.url" class="absolute-full" :src="slide.url"/>
@@ -150,7 +150,7 @@
       </div>
 
       <!--Edit slider-->
-      <q-dialog v-model="modalSlider" v-if="sliderToEdit" id="sliderModalEdit"
+      <q-dialog v-model="modalSlider" v-if="positionToEdit" id="sliderModalEdit"
                 :content-css="{minwidth: '80vw', minHeight: '80vh'}">
         <q-card class="relative-position backend-page" style="width: 500px;">
           <!--Header-->
@@ -162,13 +162,13 @@
           </q-toolbar>
 
           <div class=" q-pa-md row q-col-gutter-md">
-            <div v-if="sliderToEdit.id" class="col-12 col-md-7 text-right">
+            <div v-if="positionToEdit.id" class="col-12 col-md-7 text-right">
               <!--Button add new-->
               <q-btn icon="add" color="positive" class="q-mx-xs btn-small"
-                     @click="showSlideModal(false)" :label="$tr('qbanner.layout.newSlide')"/>
+                     @click="showSlideModal(false)" :label="$tr('qbanner.layout.newBannerItem')"/>
               <!---Draggable-->
-              <draggable v-model="sliderToEdit.slides" group="slides">
-                <div v-for="(slide,index) in sliderToEdit.slides" :key="'slide'+index"
+              <draggable v-model="positionToEdit.banners" group="slides">
+                <div v-for="(slide,index) in positionToEdit.banners" :key="'slide'+index"
                      :style="'background-image: url('+slide.imageUrl+'); position:relative'"
                      class="image border q-my-sm col-12 col-sm-4 col-md-3">
                   <div style="bottom: 5px; right: 5px; position: absolute;">
@@ -179,27 +179,27 @@
                     </q-btn>
                     <q-btn icon="far fa-trash-alt" color="negative" size="xs" class="q-mx-xs"
                            v-if="hasPermissionRecordMAster(slide).destroy"
-                           @click="deleteSlide(slide.id, index)">
+                           @click="deleteBanner(slide.id, index)">
                       <q-tooltip>{{$tr('ui.label.delete')}}</q-tooltip>
                     </q-btn>
                   </div>
                 </div>
               </draggable>
             </div>
-            <div :class="'col-12 '+ (sliderToEdit.id ? 'col-md-5' : '')">
-              <q-form @submit="updateOrCreateSlider(sliderToEdit)" ref="formContent"
+            <div :class="'col-12 '+ (positionToEdit.id ? 'col-md-5' : '')">
+              <q-form @submit="updateOrCreateSlider(positionToEdit)" ref="formContent"
                       @validation-error="$alert.error($tr('ui.message.formInvalid'))"
                       autocomplete="off">
                 <q-input :label="`${$tr('ui.form.name')} *`" type="text" outlined dense
                          :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
-                         @input="setSlug()" v-model="sliderToEdit.name"/>
+                         @input="setSlug()" v-model="positionToEdit.name"/>
                 <!--System Name-->
                 <q-input :label="`${$tr('ui.form.slug')} *`" type="text" outlined dense
                          :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
-                         v-model="sliderToEdit.systemName"/>
+                         v-model="positionToEdit.systemName"/>
                 <!--== Slide Active ==-->
                 <q-select class="q-mb-md" :label="$tr('ui.form.status')"
-                          v-model="sliderToEdit.active"
+                          v-model="positionToEdit.active"
                           emit-value map-options
                           :options="[
                               {label : $tr('ui.label.enabled'), value : true},
@@ -209,7 +209,7 @@
                 <q-select :label="$tr('ui.form.masterRecord')"
                           v-if="canManageRecordMaster"
                           emit-value map-options
-                          v-model="sliderToEdit.options.masterRecord"
+                          v-model="positionToEdit.options.masterRecord"
                           :options="[
                               {label: this.$tr('ui.label.yes'), value: 1},
                               {label: this.$tr('ui.label.no'), value: 0},
@@ -231,7 +231,7 @@
       </q-dialog>
 
       <!--Edit slide-->
-      <q-dialog v-model="modalSlide" :key="slideToEdit.id ? slideToEdit.id : ''" id="sliderModalEdit">
+      <q-dialog v-model="modalSlide" :key="bannerToEdit.id ? bannerToEdit.id : ''" id="sliderModalEdit">
         <q-card class="backend-page" style="minWidth: 80vw; minHeight: 80vh">
           <!--Header-->
           <q-toolbar class="bg-primary text-white">
@@ -295,7 +295,7 @@
                 <div class="input-title">{{`${$tr('ui.form.image')}`}}</div>
                 <media-form
                   entity="Modules\Slider\Entities\Slide"
-                  :entity-id="slideToEdit.id ? slideToEdit.id : ''"
+                  :entity-id="bannerToEdit.id ? bannerToEdit.id : ''"
                   v-model="locale.formTemplate.mediasSingle"
                   zone="slideimage"
                   :key="mediaKey"
@@ -341,7 +341,7 @@
             target: null,
             externalImageUrl: '',
             mediasSingle: {},
-            sliderId: '',
+            positionId: '',
             position: 0,
             type: 'auto',
             options: {
@@ -361,8 +361,8 @@
         mediaKey: this.$uid(),
         modalSlider: false,
         modalSlide: false,
-        sliderToEdit: { options: { masterRecord: 0 } },
-        slideToEdit: { options: { masterRecord: 0 } },
+        positionToEdit: { options: { masterRecord: 0 } },
+        bannerToEdit: { options: { masterRecord: 0 } },
         dialogDeleteSlider: {
           handler: (id) => {
             this.$q.dialog({
@@ -371,7 +371,7 @@
               message: 'you are sure to eliminate this slider?',
               cancel: 'Cancel'
             }).onOk(() => {
-              this.deleteSlider(id)
+              this.deletePosition(id)
             }).onCancel(() => {
             })
           }
@@ -409,10 +409,10 @@
       canManageRecordMaster () {
         let response = true
 
-        if (this.sliderToEdit.id && !this.$auth.hasAccess('isite.master.records.edit')) {
+        if (this.positionToEdit.id && !this.$auth.hasAccess('isite.master.records.edit')) {
           response = false
         }
-        if (!this.sliderToEdit.id && !this.$auth.hasAccess('isite.master.records.create')) {
+        if (!this.positionToEdit.id && !this.$auth.hasAccess('isite.master.records.create')) {
           response = false
         }
 
@@ -448,8 +448,8 @@
           this.pagination.rowsNumber = response.meta.page.lastPage
 
           if (this.modalSlider) {
-            let slider = this.dataTable.find(slider => slider.id === this.sliderToEdit.id)
-            this.sliderToEdit = slider
+            let slider = this.dataTable.find(slider => slider.id === this.positionToEdit.id)
+            this.positionToEdit = slider
           }
 
           this.loading = false
@@ -461,9 +461,9 @@
 
       showSliderModal (slider) {
         if (slider) {
-          this.sliderToEdit = this.$clone(Object.assign({}, this.sliderToEdit, slider))
+          this.positionToEdit = this.$clone(Object.assign({}, this.positionToEdit, slider))
         } else {
-          this.sliderToEdit = {
+          this.positionToEdit = {
             name: '',
             systemName: '',
             active: true,
@@ -477,10 +477,10 @@
       showSlideModal (slide) {
         if (slide) {
           //slide.mediasSingle = {}
-          this.slideToEdit = slide
+          this.bannerToEdit = slide
           this.locale.form = slide
         } else {
-          this.locale.form = this.slideToEdit = {
+          this.locale.form = this.bannerToEdit = {
             title: '',
             caption: '',
             active: 1,
@@ -490,11 +490,11 @@
             target: null,
             externalImageUrl: '',
             mediasSingle: {},
-            sliderId: this.sliderToEdit.id,
-            position: this.sliderToEdit.slides.length
+            positionId: this.positionToEdit.id,
+            position: this.positionToEdit.banners.length
           }
-          this.locale.form.sliderId = this.sliderToEdit.id
-          this.locale.form.position = this.sliderToEdit.slides.length
+          this.locale.form.positionId = this.positionToEdit.id
+          this.locale.form.position = this.positionToEdit.banners.length
         }
         this.mediaKey = this.$uid()
         this.modalSlide = true
@@ -502,7 +502,7 @@
 
       updateOrCreateSlider (data) {
         this.loading = true
-        if (this.sliderToEdit.id) {
+        if (this.positionToEdit.id) {
           this.$crud.update('apiRoutes.qbanner.positions', data.id, data).then(response => {
             this.$alert.info({ message: this.$tr('ui.message.recordUpdated') })
             this.getData({ pagination: this.pagination, search: this.filter.search }, true)
@@ -525,8 +525,8 @@
 
       updateOrCreateSlide () {
         this.loading = true
-        if (this.slideToEdit.id) {
-          this.$crud.update('apiRoutes.qbanner.banners', this.slideToEdit.id, this.locale.form).then(response => {
+        if (this.bannerToEdit.id) {
+          this.$crud.update('apiRoutes.qbanner.banners', this.bannerToEdit.id, this.locale.form).then(response => {
             this.$alert.info({ message: this.$tr('ui.message.recordUpdated') })
             this.getData({ pagination: this.pagination, search: this.filter.search }, true)
           }).catch(error => {
@@ -545,7 +545,7 @@
 
       },
 
-      deleteSlider (id) {
+      deletePosition (id) {
         this.loading = true
         this.$crud.delete('apiRoutes.qbanner.positions', id).then(response => {
           this.$alert.info({ message: this.$tr('ui.message.recordDeleted') })
@@ -556,11 +556,11 @@
         })
       },
 
-      deleteSlide (slideId, pos) {
+      deleteBanner (slideId, pos) {
         this.loading = true
         this.$crud.delete('apiRoutes.qbanner.banners', slideId).then(response => {
           this.$alert.info({ message: this.$tr('ui.message.recordDeleted') })
-          this.sliderToEdit.slides.splice(pos, 1)
+          this.positionToEdit.banners.splice(pos, 1)
           this.getData({ pagination: this.pagination, search: this.filter.search }, true)
         }).catch(error => {
           this.$alert.error({ message: this.$tr('ui.message.recordNoDeleted'), pos: 'bottom' })
@@ -570,10 +570,10 @@
 
       //Complete slug Only when is creation
       setSlug () {
-        if (!this.sliderToEdit.id) {
+        if (!this.positionToEdit.id) {
           //Set slug as title
-          let slug = this.sliderToEdit.name.trim().split(' ').join('-').toLowerCase()
-          this.sliderToEdit.systemName = this.$clone(slug.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+          let slug = this.positionToEdit.name.trim().split(' ').join('-').toLowerCase()
+          this.positionToEdit.systemName = this.$clone(slug.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
         }
       },
 

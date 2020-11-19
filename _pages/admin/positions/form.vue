@@ -8,7 +8,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <sliderForm :form-data="slider"/>
+                <positionForm :form-data="position"/>
                 <inner-loading :visible="loading"/>
               </div>
             </div>
@@ -18,7 +18,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <sliderSlides :slider="slider" @refresh="getSlider(true)"/>
+                <positionBanners :position="position" @refresh="getPosition(true)"/>
                 <inner-loading :visible="loading"/>
               </div>
             </div>
@@ -30,16 +30,16 @@
 </template>
 
 <script>
-  import sliderForm from '@imagina/qbanner/_components/admin/position/form'
-  import sliderSlides from '@imagina/qbanner/_components/admin/position/positions'
+  import positionForm from '@imagina/qbanner/_components/admin/position/form'
+  import positionBanners from '@imagina/qbanner/_components/admin/position/banners'
 
   export default {
     components:{
-      sliderForm,
-      sliderSlides
+      positionForm,
+      positionBanners
     },
     beforeDestroy () {
-      this.$root.$off('deleteSlide', this.getSlider)
+      this.$root.$off('deleteBanner', this.getPosition)
       this.$root.$off('page.data.refresh')
     },
     mounted() {
@@ -48,17 +48,17 @@
     data () {
       return {
         loading: false,
-        slider:{}
+        position:{}
       }
     },
     methods:{
       init(){
-        this.$root.$on('page.data.refresh', () => this.getSlider(true))//Listen refresh event
-        this.getSlider(true)
-        this.$root.$on('deleteSlide', this.getSlider)
+        this.$root.$on('page.data.refresh', () => this.getPosition(true))//Listen refresh event
+        this.getPosition(true)
+        this.$root.$on('deleteSlide', this.getPosition)
       },
-      //Get slider data
-      getSlider( refresh = false ){
+      //Get position data
+      getPosition( refresh = false ){
         let criteria = this.$route.params.id
         let params = {
           refresh : refresh,
@@ -66,7 +66,7 @@
         }
         this.loading = true
         this.$crud.show('apiRoutes.qbanner.positions', criteria, params).then( response => {
-          this.slider =  response.data
+          this.position =  response.data
           this.loading = false
         }).catch( error => {
           console.warn( error )

@@ -3,37 +3,37 @@
     <div class="col-12">
       <!---Component CRUD Slided -->
       <div class="text-right q-mb-md">
-        <crud :crud-data="import('@imagina/qbanner/_crud/banners')" ref="crudSlide"
+        <crud :crud-data="import('@imagina/qbanner/_crud/banners')" ref="crudBanner"
               type="button-create" :crud-props="{unelevated : true, rounded : true}"
               @updated="$emit('refresh')" @created="$emit('refresh')"
-              :custom-data="{formLeft : {sliderId: {value : $route.params.id}}}"/>
+              :custom-data="{formLeft : {positionId: {value : $route.params.id}}}"/>
       </div>
       <!--Items-->
-      <draggable @change="updateOrderSlides" v-model="slider.banners" group="slides">
+      <draggable @change="updateOrderBanners" v-model="position.banners" group="banners">
         <!--Item-->
-        <q-card class="my-card q-mb-md" v-for="(slide,index) in slider.banners" :key="'slide'+index">
+        <q-card class="my-card q-mb-md" v-for="(banner,index) in position.banners" :key="'banner'+index">
           <div class="row items-center q-pa-sm">
             <!--Title-->
             <div class="col-6">
-              <q-chip square icon="fas fa-images" text-color="white" :color="slide.active ? 'positive' : 'grey'">
-                {{slide.title}}
+              <q-chip square icon="fas fa-images" text-color="white" :color="banner.active ? 'positive' : 'grey'">
+                {{banner.title}}
               </q-chip>
             </div>
             <!--Actions-->
             <div class="col-6 text-right">
               <q-btn color="blue-4" size="sm" round icon="fas fa-pen" unelevated class="q-mr-sm"
-                     @click="$refs.crudSlide.update(slide.id)"/>
-              <q-btn @click="deleteSlideDialog(slide.id, index)" color="negative" unelevated
+                     @click="$refs.crudBanner.update(banner.id)"/>
+              <q-btn @click="deleteBannerDialog(banner.id, index)" color="negative" unelevated
                      size="sm" round icon="far fa-trash-alt"/>
             </div>
           </div>
           <q-separator/>
-          <div class="full-width" v-if="slide.imageUrl">
+          <div class="full-width" v-if="banner.imageUrl">
             <iframe
-                v-if="~slide.imageUrl.indexOf('youtube.com')"
+                v-if="~banner.imageUrl.indexOf('youtube.com')"
                 width="100%"
                 height="300"
-                :src="slide.imageUrl"
+                :src="banner.imageUrl"
                 frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
@@ -41,16 +41,16 @@
             <video
                 width="100%"
                 height="300"
-                v-else-if="~slide.imageUrl.indexOf('.mp4')"
+                v-else-if="~banner.imageUrl.indexOf('.mp4')"
                 class='img-responsive center-block'
                 loop
                 controls='false'>
-              <source :src="slide.imageUrl" type='video/mp4'>
+              <source :src="banner.imageUrl" type='video/mp4'>
             </video>
             <div
                 v-else
                 :style="`
-        background: url('${slide.imageUrl}');
+        background: url('${banner.imageUrl}');
         background-size: cover;
         background-position: center;
         height: 300px;
@@ -58,12 +58,12 @@
         max-width: 100%;`">
             </div>
           </div>
-          <div class="full-width" v-else-if="slide.url">
+          <div class="full-width" v-else-if="banner.url">
             <iframe
-                v-if="~slide.url.indexOf('youtube.com')"
+                v-if="~banner.url.indexOf('youtube.com')"
                 width="100%"
                 height="300"
-                :src="slide.url"
+                :src="banner.url"
                 frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
@@ -71,11 +71,11 @@
             <video
                 width="100%"
                 height="300"
-                v-else-if="~slide.url.indexOf('.mp4')"
+                v-else-if="~banner.url.indexOf('.mp4')"
                 class='img-responsive center-block'
                 loop
                 controls='false'>
-              <source :src="slide.url" type='video/mp4'>
+              <source :src="banner.url" type='video/mp4'>
             </video>
           </div>
         </q-card>
@@ -91,6 +91,7 @@
   import draggable from 'vuedraggable'
 
   export default {
+    name: 'positionBanners',
     components: {
       draggable,
       renderMedia
@@ -101,7 +102,7 @@
       }
     },
     props: {
-      slider: {
+      position: {
         type: Object,
         default: () => ({
           id: 0,
@@ -129,13 +130,13 @@
         return response
       },
       log() {
-        let slides = this.slider.banners.map(slide => ({id: slide.id}))
-        console.error(slides)
+        let banners = this.position.banners.map(banner => ({id: banner.id}))
+        console.error(banners)
       },
-      updateOrderSlides() {
-        let slides = this.slider.banners.map(slide => ({id: slide.id}))
+      updateOrderBanners() {
+        let banners = this.position.banners.map(banner => ({id: banner.id}))
         let data = {
-          slider: slides
+          banners: banners
         }
         this.loading = true
         this.$crud.create('apiRoutes.qbanner.orderBanners', data).then(response => {
@@ -147,18 +148,18 @@
           this.loading = false
         })
       },
-      deleteSlideDialog(slideId, pos){
+      deleteBannerDialog(bannerId, pos){
         this.$q.dialog({
           title: 'Confirm',
           ok: 'Delete',
-          message: 'You are sure to eliminate this slide?',
+          message: 'You are sure to eliminate this banner?',
           cancel: true,
           persistent: true
         }).onOk(() => {
-          this.$crud.delete('apiRoutes.qbanner.banners', slideId).then(response => {
+          this.$crud.delete('apiRoutes.qbanner.banners', bannerId).then(response => {
             this.$alert.info({ message: this.$tr('ui.message.recordDeleted') })
-            //this.slider.banners.splice(pos, 1)
-            this.$root.$emit('deleteSlide', 'deleteSlide')
+            //this.position.banners.splice(pos, 1)
+            this.$root.$emit('deleteBanner', 'deleteBanner')
           }).catch(error => {
             this.$alert.error({ message: this.$tr('ui.message.recordNoDeleted'), pos: 'bottom' })
           })

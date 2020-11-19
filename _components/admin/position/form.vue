@@ -53,6 +53,7 @@
 
 <script>
   export default {
+    name: 'positionsForm',
     props: {
       formData: {type: Object}
     },

@@ -30,7 +30,7 @@
             return {
                 loading: false,
                 position: {},
-                slide: 0
+                banner: 0
             }
         },
         created() {

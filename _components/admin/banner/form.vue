@@ -128,7 +128,7 @@
       dataLocale() {
         return {
           fields: {
-            sliderId: this.$route.params.sliderId,
+            positionId: this.$route.params.positionId,
             target: null,
             type: 'auto',
             mediasSingle: {},
@@ -149,10 +149,10 @@
       },
       canManageRecordMaster () {
         let response = true
-        if (this.$route.params.sliderId.id && !this.$auth.hasAccess('isite.master.records.edit')) {
+        if (this.$route.params.positionId.id && !this.$auth.hasAccess('isite.master.records.edit')) {
           response = false
         }
-        if (!this.$route.params.sliderId.id && !this.$auth.hasAccess('isite.master.records.create')) {
+        if (!this.$route.params.positionId.id && !this.$auth.hasAccess('isite.master.records.create')) {
           response = false
         }
         return response
@@ -205,7 +205,7 @@
           let configName = 'apiRoutes.qbanner.banners'
           this.$crud.create(configName, this.getDataForm()).then(response => {
             this.$alert.success({message: `${this.$tr('ui.message.recordCreated')} ID: ${response.data.id}`})
-            this.$router.push({name: 'qbanner.admin.sliders.show', params: {id: this.$route.params.sliderId}})
+            this.$router.push({name: 'qbanner.admin.sliders.show', params: {id: this.$route.params.positionId}})
             this.loading = false
           }).catch(error => {
             this.loading = false

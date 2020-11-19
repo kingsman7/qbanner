@@ -1,8 +1,8 @@
 export default {
-  newSlider : 'New Banner',
+  newBanner : 'New Banner',
   updateSlider : 'Update Banner',
   createSlider : 'Create Banner',
-  newSlide : 'New Item',
+  newBannerItem : 'New Item',
   updateSlide : 'Update Item',
   label : {
     codeAds  : 'Code ADS',

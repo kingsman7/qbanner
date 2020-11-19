@@ -7,7 +7,7 @@
         <div class="col-12 flex justify-end q-my-sm">
           <q-breadcrumbs>
             <q-breadcrumbs-el label="Sliders" :to="{name: 'qbanner.admin.sliders'}"/>
-            <q-breadcrumbs-el label="Slider" :to="{name: 'qbanner.admin.sliders.show', params:{id:$route.params.sliderId}}"/>
+            <q-breadcrumbs-el label="Slider" :to="{name: 'qbanner.admin.sliders.show', params:{id:$route.params.positionId}}"/>
             <q-breadcrumbs-el label="Slide" />
           </q-breadcrumbs>
         </div>

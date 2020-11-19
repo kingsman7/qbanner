@@ -6,8 +6,8 @@
       <div class="row">
         <div class="col-12 flex justify-end q-my-sm">
           <q-breadcrumbs>
-            <q-breadcrumbs-el label="Sliders" :to="{name: 'qbanner.admin.sliders'}"/>
-            <q-breadcrumbs-el label="Slider" />
+            <q-breadcrumbs-el label="Banners" :to="{name: 'qbanner.admin.positions'}"/>
+            <q-breadcrumbs-el label="Banners" />
           </q-breadcrumbs>
         </div>
       </div>
@@ -16,7 +16,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <sliderForm :form="slider"/>
+                <positionForm :form="position"/>
                 <inner-loading :visible="loading"/>
               </div>
             </div>
@@ -26,7 +26,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <sliderSlides :slider="slider" />
+                <positionBanners :position="positionData" />
                 <inner-loading :visible="loading"/>
               </div>
             </div>
@@ -38,29 +38,30 @@
 </template>
 
 <script>
-  import sliderForm from '@imagina/qbanner/_components/admin/position/form'
-  import sliderSlides from '@imagina/qbanner/_components/admin/position/positions'
+  import positionForm from '@imagina/qbanner/_components/admin/position/form'
+  import positionBanners from '@imagina/qbanner/_components/admin/position/banners'
 
   export default {
+    name: 'positionShow',
     components:{
-      sliderForm,
-      sliderSlides
+      positionForm,
+      positionBanners
     },
     data () {
       return {
         loading: false,
-        slider:{}
+        positionData:{}
       }
     },
     beforeDestroy () {
-      this.$root.$off('deleteSlide', this.getSlider)
+      this.$root.$off('deleteBanner', this.getPosition)
     },
     created() {
-      this.getSlider(true)
-      this.$root.$on('deleteSlide', this.getSlider)
+      this.getPosition(true)
+      this.$root.$on('deleteBanner', this.getPosition)
     },
     methods:{
-      getSlider( refresh = false ){
+      getPosition( refresh = false ){
         let criteria = this.$route.params.id
         let params = {
           refresh,
@@ -68,8 +69,8 @@
         }
         this.loading = true
         this.$crud.show('apiRoutes.qbanner.positions', criteria, params).then( response => {
-          this.slider =  response.data
-          this.slider.options = response.data.options || {showAsPopup: '0', masterRecord: '0'}
+          this.positionData =  response.data
+          this.position.options = response.data.options || {showAsPopup: '0', masterRecord: '0'}
           this.loading = false
         }).catch( error => {
           console.warn( error )

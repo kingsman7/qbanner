@@ -1,4 +1,4 @@
 export default {
-  adminSlider : 'Banners',
-  adminSliderEdit : 'Editar Banner'
+  adminBanner : 'Banners',
+  adminBannerEdit : 'Editar Banner'
 }

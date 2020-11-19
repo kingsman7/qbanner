@@ -13,7 +13,7 @@
           apiRoute: 'apiRoutes.qbanner.positions',
           permission: 'ibanners.positions',
           create: {
-            title: this.$tr('qbanner.layout.newSlider'),
+            title: this.$tr('qbanner.layout.newBanner'),
           },
           read: {
             columns: [
@@ -30,7 +30,7 @@
             requestParams: {}
           },
           update: {
-            to: 'qbanner.admin.sliders.show'
+            to: 'qbanner.admin.positions.show'
           },
           delete: true,
           formLeft: {
@@ -68,13 +68,12 @@
               }
             },
             showAsPopup: {
-              value: '0',
+              value: false,
               type: 'checkbox',
-              isFakeField: true,
               props: {
                 label: this.$tr('qbanner.layout.label.showAsPopup'),
-                trueValue: "1",
-                falseValue: "0"
+                trueValue: true,
+                falseValue: false
               }
             },
           },
