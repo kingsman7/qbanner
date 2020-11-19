@@ -1,7 +1,7 @@
 <template>
   <div id="pageId">
     <!---Component CRUD-->
-    <crud :crud-data="import('@imagina/qbanner/_crud/sliders')"/>
+    <crud :crud-data="import('@imagina/qbanner/_crud/positions')"/>
   </div>
 </template>
 <script>

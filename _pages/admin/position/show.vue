@@ -3,12 +3,20 @@
     id="pageId"
     class="q-layout-page layout-padding">
     <div class="q-mb-lg backend-page">
+      <div class="row">
+        <div class="col-12 flex justify-end q-my-sm">
+          <q-breadcrumbs>
+            <q-breadcrumbs-el label="Sliders" :to="{name: 'qbanner.admin.sliders'}"/>
+            <q-breadcrumbs-el label="Slider" />
+          </q-breadcrumbs>
+        </div>
+      </div>
       <div class="row q-col-gutter-md">
         <div class="col-xs-12 col-md-5">
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <sliderForm :form-data="slider"/>
+                <sliderForm :form="slider"/>
                 <inner-loading :visible="loading"/>
               </div>
             </div>
@@ -18,7 +26,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <sliderSlides :slider="slider" @refresh="getSlider(true)"/>
+                <sliderSlides :slider="slider" />
                 <inner-loading :visible="loading"/>
               </div>
             </div>
@@ -30,20 +38,13 @@
 </template>
 
 <script>
-  import sliderForm from '@imagina/qbanner/_components/admin/slider/form'
-  import sliderSlides from '@imagina/qbanner/_components/admin/slider/slides'
+  import sliderForm from '@imagina/qbanner/_components/admin/position/form'
+  import sliderSlides from '@imagina/qbanner/_components/admin/position/positions'
 
   export default {
     components:{
       sliderForm,
       sliderSlides
-    },
-    beforeDestroy () {
-      this.$root.$off('deleteSlide', this.getSlider)
-      this.$root.$off('page.data.refresh')
-    },
-    mounted() {
-      this.init()
     },
     data () {
       return {
@@ -51,22 +52,24 @@
         slider:{}
       }
     },
+    beforeDestroy () {
+      this.$root.$off('deleteSlide', this.getSlider)
+    },
+    created() {
+      this.getSlider(true)
+      this.$root.$on('deleteSlide', this.getSlider)
+    },
     methods:{
-      init(){
-        this.$root.$on('page.data.refresh', () => this.getSlider(true))//Listen refresh event
-        this.getSlider(true)
-        this.$root.$on('deleteSlide', this.getSlider)
-      },
-      //Get slider data
       getSlider( refresh = false ){
         let criteria = this.$route.params.id
         let params = {
-          refresh : refresh,
+          refresh,
           params: {}
         }
         this.loading = true
         this.$crud.show('apiRoutes.qbanner.positions', criteria, params).then( response => {
           this.slider =  response.data
+          this.slider.options = response.data.options || {showAsPopup: '0', masterRecord: '0'}
           this.loading = false
         }).catch( error => {
           console.warn( error )

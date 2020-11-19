@@ -24,25 +24,13 @@
 </template>
 
 <script>
-  import formSlide from '@imagina/qbanner/_components/admin/slide/form'
+  import formSlide from '@imagina/qbanner/_components/admin/banner/form'
 
   export default {
     components:{
       formSlide
-    },
-    data (){
-      return {
-
-      }
-    },
-    created() {
-
-    },
-    methods:{
-      getSlide(){
-
-      }
     }
+
   }
 </script>
 
