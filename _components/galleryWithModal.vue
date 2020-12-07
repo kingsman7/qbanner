@@ -100,8 +100,6 @@
           this.loading = true
           this.$crud.show('apiRoutes.qbanner.positions', this.systemName, params).then(response => {
               this.position = response.data
-              console.log(this.position)
-
               this.loading = false
           }).catch(error => {
               this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
