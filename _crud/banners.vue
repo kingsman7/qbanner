@@ -72,14 +72,14 @@
           },
           formRight: {
             active: {
-              value: true,
+              value: 1,
               type: 'select',
               isTranslatable : true,
               props: {
                 label: this.$tr('ui.form.status'),
                 options: [
-                  {label: this.$tr('ui.label.enabled'), value: true},
-                  {label: this.$tr('ui.label.disabled'), value: false},
+                  {label: this.$tr('ui.label.enabled'), value: 1},
+                  {label: this.$tr('ui.label.disabled'), value: 0},
                 ]
               }
             },

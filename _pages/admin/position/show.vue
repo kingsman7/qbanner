@@ -16,7 +16,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <positionForm :form="position"/>
+                <positionForm :form-data="position"/>
                 <inner-loading :visible="loading"/>
               </div>
             </div>
