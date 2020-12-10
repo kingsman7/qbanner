@@ -124,7 +124,7 @@
               type: 'media',
               props: {
                 label: this.$tr('ui.form.image'),
-                zone: 'bannerImage',
+                zone: 'bannerimage',
                 entity: "Modules\\Ibanners\\Entities\\Banner",
                 entityId: null
               }
