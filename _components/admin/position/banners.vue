@@ -22,7 +22,7 @@
             <!--Actions-->
             <div class="col-6 text-right">
               <q-btn color="blue-4" size="sm" round icon="fas fa-pen" unelevated class="q-mr-sm"
-                     @click="$refs.crudBanner.update(banner.id)"/>
+                     @click="$refs.crudBanner.update(banner)"/>
               <q-btn @click="deleteBannerDialog(banner.id, index)" color="negative" unelevated
                      size="sm" round icon="far fa-trash-alt"/>
             </div>
