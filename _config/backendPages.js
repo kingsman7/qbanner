@@ -1,7 +1,7 @@
 export default {
   //Home Page
   index: {
-    permission: 'ibanners.positions.index',
+    permission: 'ibanners.positions.manage',
     activated: true,
     path: '/banners/index',
     name: 'qbanner.admin.positions',
