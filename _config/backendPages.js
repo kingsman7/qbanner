@@ -9,7 +9,7 @@ export default {
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'qbanner.sidebar.adminBanner',
-    icon: 'fas fa-photo-video',
+    icon: 'far fa-newspaper',
     authenticated: true,
     subHeader: {refresh: true}
   },
