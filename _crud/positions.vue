@@ -10,6 +10,7 @@
       crudData() {
         return {
           crudId: this.crudId,
+          entityName: config("main.qbanner.entityNames.position"),
           apiRoute: 'apiRoutes.qbanner.positions',
           permission: 'ibanners.positions',
           create: {
