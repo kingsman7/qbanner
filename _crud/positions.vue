@@ -13,6 +13,7 @@
           entityName: config("main.qbanner.entityNames.position"),
           apiRoute: 'apiRoutes.qbanner.positions',
           permission: 'ibanners.positions',
+          extraFormFields: 'ibanners.crud-fields.positions',
           create: {
             title: this.$tr('qbanner.layout.newBanner'),
           },
