@@ -40,7 +40,7 @@
           @click="$refs.formContent.submit()"
           icon="fas fa-save"
           class="btn-small"
-          color="positive"
+          color="green"
           :label="$tr('ui.label.save')"
           unelevated
           rounded

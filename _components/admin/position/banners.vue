@@ -15,7 +15,7 @@
           <div class="row items-center q-pa-sm">
             <!--Title-->
             <div class="col-6">
-              <q-chip square icon="fas fa-images" text-color="white" :color="banner.active ? 'positive' : 'grey'">
+              <q-chip square icon="fas fa-images" text-color="white" :color="banner.active ? 'green' : 'grey'">
                 {{banner.title}}
               </q-chip>
             </div>
@@ -23,7 +23,7 @@
             <div class="col-6 text-right">
               <q-btn color="blue-4" size="sm" round icon="fas fa-pen" unelevated class="q-mr-sm"
                      @click="$refs.crudBanner.update(banner)"/>
-              <q-btn @click="deleteBannerDialog(banner.id, index)" color="negative" unelevated
+              <q-btn @click="deleteBannerDialog(banner.id, index)" color="red" unelevated
                      size="sm" round icon="far fa-trash-alt"/>
             </div>
           </div>
