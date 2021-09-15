@@ -18,7 +18,7 @@
           <div class="box">
             <div class="row gutter-y-sm">
               <div class="col-12 relative-position">
-                <positionBanners :position="position" @refresh="getPosition(true)"/>
+                <positionBanners :position="position" v-if="!loading" @refresh="getPosition(true)"/>
                 <inner-loading :visible="loading"/>
               </div>
             </div>

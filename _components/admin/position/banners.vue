@@ -16,7 +16,7 @@
             <!--Title-->
             <div class="col-6">
               <q-chip square icon="fas fa-images" text-color="white" :color="banner.active ? 'green' : 'grey'">
-                {{banner.title}}
+                {{ banner.title }}
               </q-chip>
             </div>
             <!--Actions-->
@@ -87,86 +87,101 @@
 </template>
 
 <script>
-  import renderMedia from '@imagina/qbanner/_components/admin/banner/renderMedia'
-  import draggable from 'vuedraggable'
+import renderMedia from '@imagina/qbanner/_components/admin/banner/renderMedia'
+import draggable from 'vuedraggable'
 
-  export default {
-    name: 'positionBanners',
-    components: {
-      draggable,
-      renderMedia
-    },
-    data() {
-      return {
-        loading: false
-      }
-    },
-    props: {
-      position: {
-        type: Object,
-        default: () => ({
-          id: 0,
-        })
-      },
-    },
-    watch: {},
-    methods: {
-      hasPermissionRecordMAster(record) {
-        let options = record.options || false
-        let response = {
-          create: true,
-          edit: true,
-          index: true,
-          destroy: true,
-        }
-        if (options && parseInt(options.masterRecord)) {
-          response = {
-            create: this.$auth.hasAccess('isite.master.records.create'),
-            edit: this.$auth.hasAccess('isite.master.records.edit'),
-            index: this.$auth.hasAccess('isite.master.records.index'),
-            destroy: this.$auth.hasAccess('isite.master.records.destroy')
-          }
-        }
-        return response
-      },
-      log() {
-        let banners = this.position.banners.map(banner => ({id: banner.id}))
-        console.error(banners)
-      },
-      updateOrderBanners() {
-        let banners = this.position.banners.map(banner => ({id: banner.id}))
-        let data = {
-          banners: banners
-        }
-        this.loading = true
-        this.$crud.create('apiRoutes.qbanner.orderBanners', data).then(response => {
-          this.$alert.success({message: `${this.$tr('ui.message.recordUpdated')}`})
-          this.loading = false
-        }).catch(error => {
-          this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
-          console.warn(error)
-          this.loading = false
-        })
-      },
-      deleteBannerDialog(bannerId, pos){
-        this.$q.dialog({
-          title: 'Confirm',
-          ok: 'Delete',
-          message: 'You are sure to eliminate this banner?',
-          cancel: true,
-          persistent: true
-        }).onOk(() => {
-          this.$crud.delete('apiRoutes.qbanner.banners', bannerId).then(response => {
-            this.$alert.info({ message: this.$tr('ui.message.recordDeleted') })
-            //this.position.banners.splice(pos, 1)
-            this.$root.$emit('deleteBanner', 'deleteBanner')
-          }).catch(error => {
-            this.$alert.error({ message: this.$tr('ui.message.recordNoDeleted'), pos: 'bottom' })
-          })
-        }).onCancel(() => {})
-      },
+export default {
+  name: 'positionBanners',
+  components: {
+    draggable,
+    renderMedia
+  },
+  mounted() {
+    this.init()
+  },
+  data() {
+    return {
+      loading: false
     }
+  },
+  props: {
+    position: {
+      type: Object,
+      default: () => ({
+        id: 0,
+      })
+    },
+  },
+  watch: {},
+  methods: {
+    init() {
+      this.openEditSlide()
+    },
+    openEditSlide() {
+      setTimeout(() => {
+        if (this.$route.query.edit) {
+          let slideToEdit = (this.position.banners || []).find(item => item.id == this.$route.query.edit)
+          if (slideToEdit) this.$refs.crudBanner.update(slideToEdit)
+        }
+      }, 500)
+    },
+    hasPermissionRecordMAster(record) {
+      let options = record.options || false
+      let response = {
+        create: true,
+        edit: true,
+        index: true,
+        destroy: true,
+      }
+      if (options && parseInt(options.masterRecord)) {
+        response = {
+          create: this.$auth.hasAccess('isite.master.records.create'),
+          edit: this.$auth.hasAccess('isite.master.records.edit'),
+          index: this.$auth.hasAccess('isite.master.records.index'),
+          destroy: this.$auth.hasAccess('isite.master.records.destroy')
+        }
+      }
+      return response
+    },
+    log() {
+      let banners = this.position.banners.map(banner => ({id: banner.id}))
+      console.error(banners)
+    },
+    updateOrderBanners() {
+      let banners = this.position.banners.map(banner => ({id: banner.id}))
+      let data = {
+        banners: banners
+      }
+      this.loading = true
+      this.$crud.create('apiRoutes.qbanner.orderBanners', data).then(response => {
+        this.$alert.success({message: `${this.$tr('ui.message.recordUpdated')}`})
+        this.loading = false
+      }).catch(error => {
+        this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+        console.warn(error)
+        this.loading = false
+      })
+    },
+    deleteBannerDialog(bannerId, pos) {
+      this.$q.dialog({
+        title: 'Confirm',
+        ok: 'Delete',
+        message: 'You are sure to eliminate this banner?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$crud.delete('apiRoutes.qbanner.banners', bannerId).then(response => {
+          this.$alert.info({message: this.$tr('ui.message.recordDeleted')})
+          //this.position.banners.splice(pos, 1)
+          this.$root.$emit('deleteBanner', 'deleteBanner')
+        }).catch(error => {
+          this.$alert.error({message: this.$tr('ui.message.recordNoDeleted'), pos: 'bottom'})
+        })
+      }).onCancel(() => {
+      })
+    },
   }
+}
 </script>
 
 <style scoped>
