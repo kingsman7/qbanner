@@ -15,14 +15,14 @@
           permission: 'ibanners.banners',
           extraFormFields: 'ibanners.crud-fields.banners',
           create: {
-            title: this.$tr('qbanner.layout.newBannerItem'),
+            title: this.$tr('ibanners.cms.newBannerItem'),
           },
           read: {
             columns: [],
             requestParams: {}
           },
           update: {
-            title: this.$tr('qbanner.layout.updateSlide'),
+            title: this.$tr('ibanners.cms.updateSlide'),
           },
           delete: true,
           formLeft: {
@@ -33,9 +33,9 @@
               type: 'input',
               isTranslatable : true,
               props: {
-                label: `${this.$tr('ui.form.title')}*`,
+                label: `${this.$tr('isite.cms.form.title')}*`,
                 rules: [
-                  val => !!val || this.$tr('ui.message.fieldRequired')
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
               },
             },
@@ -60,7 +60,7 @@
               type: 'input',
               isTranslatable : true,
               props: {
-                label: `${this.$tr('ui.form.image')}`,
+                label: `${this.$tr('isite.cms.form.image')}`,
               },
             },
             customHtml: {
@@ -68,7 +68,7 @@
               type: 'html',
               isTranslatable: true,
               props: {
-                label: `${this.$tr('ui.form.description')}`,
+                label: `${this.$tr('isite.cms.form.description')}`,
               }
             },
           },
@@ -78,10 +78,10 @@
               type: 'select',
               isTranslatable : true,
               props: {
-                label: this.$tr('ui.form.status'),
+                label: this.$tr('isite.cms.form.status'),
                 options: [
-                  {label: this.$tr('ui.label.enabled'), value: 1},
-                  {label: this.$tr('ui.label.disabled'), value: 0},
+                  {label: this.$tr('isite.cms.label.enabled'), value: 1},
+                  {label: this.$tr('isite.cms.label.disabled'), value: 0},
                 ]
               }
             },
@@ -90,7 +90,7 @@
               value: null,
               type: 'select',
               props: {
-                label: this.$tr('ui.form.option'),
+                label: this.$tr('isite.cms.form.option'),
                 options: [
                   {label: 'Same tab', value: '_self'},
                   {label: 'New tab', value: '_blank'}
@@ -102,7 +102,7 @@
               value: null,
               type: 'select',
               props: {
-                label: this.$tr('ui.form.type'),
+                label: this.$tr('isite.cms.form.type'),
                 options: [
                   {label: 'Auto', value: 'auto'},
                   {label: '360', value: '360'},
@@ -116,7 +116,7 @@
               type: 'input',
               isFakeField: true,
               props: {
-                label: `${this.$tr('qbanner.layout.label.codeAds')}`,
+                label: `${this.$tr('ibanners.cms.label.codeAds')}`,
                 type: 'textarea',
                 rows: "3"
               },
@@ -125,7 +125,7 @@
               value: {},
               type: 'media',
               props: {
-                label: this.$tr('ui.form.image'),
+                label: this.$tr('isite.cms.form.image'),
                 zone: 'bannerimage',
                 entity: "Modules\\Ibanners\\Entities\\Banner",
                 entityId: null

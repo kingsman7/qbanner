@@ -8,15 +8,15 @@
       ref="formContent"
       class="row q-col-gutter-x-md full-width"
       autocomplete="off"
-      @validation-error="$alert.error($tr('ui.message.formInvalid'))">
+      @validation-error="$alert.error($tr('isite.cms.message.formInvalid'))">
       <!--Form left-->
       <div class="col-7 q-gutter-y-md" v-if="locale.success">
 
         <q-input
-          :label="`${$tr('ui.form.title')} (${locale.language}) `"
+          :label="`${$tr('isite.cms.form.title')} (${locale.language}) `"
           type="text" v-model="locale.formTemplate.title" outlined dense/>
         <q-input
-          :label="`${$tr('ui.form.caption')} (${locale.language}) `"
+          :label="`${$tr('isite.cms.form.caption')} (${locale.language}) `"
           type="text" outlined dense
           v-model="locale.formTemplate.caption"/>
         <q-input
@@ -26,11 +26,11 @@
           :label="'URL ('+locale.language+')'" type="text"
           v-model="locale.formTemplate.url" outlined dense/>
         <q-input
-          :label="`${$tr('ui.form.image')} URL (${locale.language}) `"
+          :label="`${$tr('isite.cms.form.image')} URL (${locale.language}) `"
           type="text" outlined dense
           v-model="locale.formTemplate.externalImageUrl"/>
         <q-editor
-          :label="`${$tr('ui.form.description')} (${locale.language}) `"
+          :label="`${$tr('isite.cms.form.description')} (${locale.language}) `"
           v-model="locale.formTemplate.customHtml" style="width: 100%"/>
 
       </div>
@@ -39,30 +39,30 @@
 
         <q-select
           v-model="locale.formTemplate.options.masterRecord"
-          :label="$tr('ui.form.masterRecord')"
+          :label="$tr('isite.cms.form.masterRecord')"
           v-if="canManageRecordMaster" outlined dense
           emit-value map-options
           :options="[
-          {label: this.$tr('ui.label.yes'), value: 1},
-          {label: this.$tr('ui.label.no'), value: 0},
+          {label: this.$tr('isite.cms.label.yes'), value: 1},
+          {label: this.$tr('isite.cms.label.no'), value: 0},
         ]"/>
         <q-select
-          :label="`${$tr('ui.form.status')} (${locale.language})`"
+          :label="`${$tr('isite.cms.form.status')} (${locale.language})`"
           v-model="locale.formTemplate.active" outlined dense
           emit-value map-options
           :options="[
-            {label : $tr('ui.label.enabled'), value : true},
-            {label : $tr('ui.label.disabled'), value : false},
+            {label : $tr('isite.cms.label.enabled'), value : true},
+            {label : $tr('isite.cms.label.disabled'), value : false},
           ]"/>
         <q-select
-          :label="`${$tr('ui.form.option')}`" v-model="locale.formTemplate.target"
+          :label="`${$tr('isite.cms.form.option')}`" v-model="locale.formTemplate.target"
           emit-value map-options
           outlined dense :options="[
             {value: '_self', label: 'Same tab'},
             {value: '_blank', label: 'New tab'}
           ]"/>
         <q-select
-          :label="`${$tr('ui.form.type')}`" v-model="locale.formTemplate.type"
+          :label="`${$tr('isite.cms.form.type')}`" v-model="locale.formTemplate.type"
           emit-value map-options
           outlined dense :options="[
             {value: 'auto', label: 'Auto'},
@@ -70,7 +70,7 @@
             {value: 'video', label: 'Video'},
             {value: 'image', label: 'Image'}
           ]"/>
-        <div class="input-title">{{`${$tr('ui.form.image')}`}}</div>
+        <div class="input-title">{{`${$tr('isite.cms.form.image')}`}}</div>
         <mediaForm
           entity="Modules\Slider\Entities\Slide"
           :entity-id="itemId ? itemId : ''"
@@ -84,14 +84,14 @@
           v-if="itemId" color="green"
           :loading="loading"
           icon="fas fa-edit"
-          :label="$tr('ui.label.update')"
+          :label="$tr('isite.cms.label.update')"
           type="submit"
           rounded/>
         <q-btn
           v-else color="green"
           :loading="loading"
           icon="fas fa-edit"
-          :label="$tr('ui.label.create')" type="submit" rounded/>
+          :label="$tr('isite.cms.label.create')" type="submit" rounded/>
       </div>
     </q-form>
     <inner-loading :visible="loading"/>
@@ -186,7 +186,7 @@
               this.orderDataItemToLocale(response.data)
               resolve(true)//Resolve
             }).catch(error => {
-              this.$alert.error({message: this.$tr('ui.message.errorRequest'), pos: 'bottom'})
+              this.$alert.error({message: this.$tr('isite.cms.message.errorRequest'), pos: 'bottom'})
               this.loading = false
               reject(false)//Resolve
             })
@@ -204,12 +204,12 @@
           this.loading = true
           let configName = 'apiRoutes.qbanner.banners'
           this.$crud.create(configName, this.getDataForm()).then(response => {
-            this.$alert.success({message: `${this.$tr('ui.message.recordCreated')} ID: ${response.data.id}`})
+            this.$alert.success({message: `${this.$tr('isite.cms.message.recordCreated')} ID: ${response.data.id}`})
             this.$router.push({name: 'qbanner.admin.sliders.show', params: {id: this.$route.params.positionId}})
             this.loading = false
           }).catch(error => {
             this.loading = false
-            this.$alert.error({message: this.$tr('ui.message.recordNoCreated'), pos: 'bottom'})
+            this.$alert.error({message: this.$tr('isite.cms.message.recordNoCreated'), pos: 'bottom'})
           })
         }
       },
@@ -218,12 +218,12 @@
           this.loading = true
           let configName = 'apiRoutes.qbanner.banners'
           this.$crud.update(configName, this.itemId, this.getDataForm()).then(response => {
-            this.$alert.success({message: `${this.$tr('ui.message.recordUpdated')}`})
+            this.$alert.success({message: `${this.$tr('isite.cms.message.recordUpdated')}`})
             //this.initForm()
             this.loading = false
           }).catch(error => {
             this.loading = false
-            this.$alert.error({message: this.$tr('ui.message.recordNoUpdated'), pos: 'bottom'})
+            this.$alert.error({message: this.$tr('isite.cms.message.recordNoUpdated'), pos: 'bottom'})
           })
         }
       },

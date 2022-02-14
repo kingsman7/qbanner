@@ -5,34 +5,34 @@
         class="q-mt-lg"
         @submit="updateOrCreateSlider(form)"
         ref="formContent"
-        @validation-error="$alert.error($tr('ui.message.formInvalid'))"
+        @validation-error="$alert.error($tr('isite.cms.message.formInvalid'))"
         autocomplete="off">
         <q-input
-          :label="`${$tr('ui.form.name')} *`"
+          :label="`${$tr('isite.cms.form.name')} *`"
           type="text"
           outlined
           dense
-          :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+          :rules="[val => !!val || $tr('isite.cms.message.fieldRequired')]"
           v-model="form.name"/>
         <q-input
-          :label="`${$tr('ui.form.slug')} *`"
+          :label="`${$tr('isite.cms.form.slug')} *`"
           type="text"
           outlined
           dense
-          :rules="[val => !!val || $tr('ui.message.fieldRequired')]"
+          :rules="[val => !!val || $tr('isite.cms.message.fieldRequired')]"
           v-model="form.systemName"/>
         <q-select
-          :label="$tr('ui.form.status')"
+          :label="$tr('isite.cms.form.status')"
           v-model="form.active"
           emit-value
           map-options
           :options="[
-            {label : $tr('ui.label.enabled'), value : true},
-            {label : $tr('ui.label.disabled'), value : false},
+            {label : $tr('isite.cms.label.enabled'), value : true},
+            {label : $tr('isite.cms.label.disabled'), value : false},
           ]"
           outlined
           dense/>
-        <q-checkbox v-model="form.showAsPopup" :label="$tr('qbanner.layout.label.showAsPopup')"
+        <q-checkbox v-model="form.showAsPopup" :label="$tr('ibanners.cms.label.showAsPopup')"
                     :true-value="true" :false-value="false" />
       </q-form>
       <div class="text-right">
@@ -41,7 +41,7 @@
           icon="fas fa-save"
           class="btn-small"
           color="green"
-          :label="$tr('ui.label.save')"
+          :label="$tr('isite.cms.label.save')"
           unelevated
           rounded
           :loading="loading"/>
@@ -84,10 +84,10 @@
         this.loading = true
         if (this.form.id) {
           this.$crud.update('apiRoutes.qbanner.positions', data.id, data).then(response => {
-            this.$alert.info({message: this.$tr('ui.message.recordUpdated')})
+            this.$alert.info({message: this.$tr('isite.cms.message.recordUpdated')})
             this.loading = false
           }).catch(error => {
-            this.$alert.error({message: this.$tr('ui.message.recordNoUpdated')})
+            this.$alert.error({message: this.$tr('isite.cms.message.recordNoUpdated')})
             this.loading = false
           })
         }
