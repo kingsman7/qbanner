@@ -1,0 +1,20 @@
+{
+  "crudId": "ibanners-crud-banner",
+  "entityName": "banner",
+  "apiRoute": "/v1/ibanners/positions",
+  "permission": "ibanners.banners",
+  "extraFormFields": "ibanners.crud-fields.banners",
+  "create": {
+     "title": "ibanners.cms.newBannerItem"
+  },
+  "read": false,
+  "update": {
+    "title": {
+      "isTranslatable": {
+        "type": "singular",
+        "value": "iblog.cms.updateCategory"
+      }
+    }
+  },
+  "delete": true
+}

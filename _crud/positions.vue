@@ -1,6 +1,13 @@
-<template></template>
+<template>
+  <config-crud ref="configCrud" />
+</template>
 <script>
+import configCrud from "@imagina/qcrud/_config/CrudConfig"
+import bannerJson from "@imagina/qbanner/_crud/positions.json"
   export default {
+    components:{
+      configCrud
+    },
     data() {
       return {
         crudId: this.$uid()
@@ -9,7 +16,8 @@
     computed: {
       crudData() {
         return {
-          crudId: this.crudId,
+         ...this.$refs.configCrud.getData(bannerJson),
+         /* crudId: this.crudId,
           entityName: config("main.qbanner.entityNames.position"),
           apiRoute: 'apiRoutes.qbanner.positions',
           permission: 'ibanners.positions',
@@ -19,22 +27,36 @@
           },
           read: {
             columns: [
-              {name: 'id', label: this.$tr('isite.cms.form.id'), field: 'id', style: 'width: 50px'},
-              {name: 'name', label: this.$tr('isite.cms.form.name'), field: 'name', align: 'rigth'},
-              {name: 'systemName', label: this.$tr('isite.cms.form.systemName'), field: 'systemName', align: 'rigth'},
-              {name: 'active', label: this.$tr('isite.cms.form.status'), field: 'active', align: 'left'},
+              {name: 'id', 
+              label: this.$tr('isite.cms.form.id'), 
+              field: 'id', 
+              style: 'width: 50px'},
+              {name: 'name', 
+              label: this.$tr('isite.cms.form.name'), 
+              field: 'name', 
+              align: 'rigth'},
+              {name: 'systemName', 
+              label: this.$tr('isite.cms.form.systemName'), 
+              field: 'systemName', 
+              align: 'rigth'},
+              {name: 'active', 
+              label: this.$tr('isite.cms.form.status'), 
+              field: 'active', 
+              align: 'left'},
               {
-                name: 'created_at', label: this.$tr('isite.cms.form.createdAt'), field: 'createdAt', align: 'left',
+                name: 'created_at', 
+                label: this.$tr('isite.cms.form.createdAt'), 
+                field: 'createdAt', 
+                align: 'left',
                 format: val => val ? this.$trd(val) : '-',
               },
               {name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'left'},
-            ],
-            requestParams: {}
+            ]
           },
           update: {
             to: 'qbanner.admin.positions.show'
           },
-          delete: true,
+          delete: true,*/
           formLeft: {
             id: {value: ''},
             userId: {value: this.$store.state.quserAuth.userId},

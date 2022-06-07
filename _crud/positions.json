@@ -1,0 +1,80 @@
+{
+  "crudId": "ibanners-crud-positions",
+  "entityName": "positions",
+  "apiRoute": "/v1/ibanners/positions",
+  "permission": "ibanners.positions",
+  "extraFormFields": "ibanners.crud-fields.positions",
+  "create": {
+     "title": "ibanners.cms.newBanner"
+  },
+  "read": {
+    "columns": [
+      {
+        "name": "id",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.id"
+        },
+        "field": "id",
+        "sortable": false,
+        "style": "width: 50px"
+      },
+      {
+        "name": "name",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.name"
+        },
+        "field": "name",
+        "align": "left",
+        "sortable": false
+      },
+      {
+        "name": "systemName",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.systemName"
+        },
+        "field": "systemName",
+        "align": "left",
+        "sortable": false
+      },
+      {
+        "name": "active",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.status"
+        },
+        "field": "active",
+        "align": "left",
+        "sortable": false
+      },
+      {
+        "name": "create_at",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.createdAt"
+        },
+        "field": "createdAt",
+        "align": "left",
+        "sortable": false,
+        "format": {
+          "type": "date"
+        }
+      },
+      {
+        "name": "actions",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.actions"
+        },
+        "align": "left"
+      }
+    ],
+    "requestParams": {}
+  },
+  "update": {
+    "to":"qbanner.admin.positions.show"
+  },
+  "delete": true
+}
